@@ -1,11 +1,11 @@
 ﻿param([String]$title='UNNAMED',[String]$season='01',[String]$FixSeason="",[String]$FixTitle="")
 
 # Create Test Files #
-#ForEach($x in 95..125){$y = $x-100;New-Item -ItemType 'file' -Path .\TestFiles -Name "$x Title $y";}
+#ForEach($x in 95..125){$y = $x-100;New-Item -ItemType 'file' -Path .\TestFiles -Name "$x Title $y.txt";}
+
+$folder = ".\"
 
 <#
-$folder = ""
-
 $foldername = New-Object System.Windows.Forms.FolderBrowserDialog
 $foldername.Description = "Select a folder"
 if($foldername.ShowDialog() -eq "OK")
@@ -13,7 +13,6 @@ if($foldername.ShowDialog() -eq "OK")
     $folder += $foldername.SelectedPath
 }
 #>
-
 
 if($fixSeason.Length -eq 0)
 {
@@ -42,7 +41,6 @@ If($fs)
             $oldSeason = $file.Name[$file.Name.IndexOf('.')+2]+$file.Name[$file.Name.IndexOf('.')+3]
             $stitle = $file.Name.Replace(".S$oldSeason",".S$FixSeason")            
             Rename-Item -Path $file.PSPath -NewName $stitle
-            #"Match - Fix Season"
         }
     }
 }
@@ -54,17 +52,9 @@ If($ft)
             $oldTitle = ""
             ForEach($i in 0..($file.Name.IndexOf('.')-1)){
                 $oldTitle = $oldTitle + $file.Name[$i]
-            }
-            
+            }   
             $ttitle = $file.Name.Replace("$oldTitle","$FixTitle")   
             Rename-Item -Path $file.PSPath -NewName $ttitle
-
-            #"Match - Fix Title"
-            #$oldTitle
-        }
-        else
-        {
-            "No Match - Fix Title"
         }
     }
 }
@@ -79,14 +69,8 @@ If(-not $fs -and -not $ft)
             $bfileName = ""
             $bfileName = $filename.Name
             $regFile = $file.Name | Select-String -Pattern '(^\d+)'
-
             $episode = $regFile.Matches.Value
-
             Rename-Item -Path $file.PSPath -NewName "$title$episode"
-        }
-        else
-        {
-            Write-Host "No Match - Standard"
         }
     }
 }
