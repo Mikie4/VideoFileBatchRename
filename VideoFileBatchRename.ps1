@@ -1,4 +1,4 @@
-﻿param([String]$title='UNNAMED',[String]$season='01',[String]$FixSeason="",[String]$FixTitle="")
+﻿param([String]$title='UNNAMED',[String]$season='01',[String]$fixSeason="",[String]$fixTitle="")
 
 # Create Test Files #
 #ForEach($x in 95..125){$y = $x-100;New-Item -ItemType 'file' -Path .\TestFiles -Name "$x Title $y.txt";}
@@ -36,7 +36,7 @@ $files = Get-ChildItem "$folder"
 If($fs)
 {
     ForEach($file in $files){
-        If( $file -match "\w+.S\d\dE\d+")
+        If( $file -match "\w+\.S\d\dE\d+")
         {   
             $oldSeason = $file.Name[$file.Name.IndexOf('.')+2]+$file.Name[$file.Name.IndexOf('.')+3]
             $stitle = $file.Name.Replace(".S$oldSeason",".S$FixSeason")            
@@ -47,7 +47,7 @@ If($fs)
 If($ft)
 {
     ForEach($file in $files){
-        If( $file -match "\w+.S\d\dE\d+")
+        If( $file -match "\w+\.S\d\dE\d+")
         {
             $oldTitle = ""
             ForEach($i in 0..($file.Name.IndexOf('.')-1)){
@@ -64,7 +64,7 @@ If(-not $fs -and -not $ft)
     $files = Get-ChildItem "$folder"
     $title = "$title.S$season" + "E"
     ForEach($file in $files){
-        If( $file -match "\d+ \w+ -?\d+")
+        If( $file -match "\d+ \w+")
         {
             $bfileName = ""
             $bfileName = $filename.Name
